@@ -1,0 +1,134 @@
+.route-margin-top{
+    background-color: #b84d45;
+    background-image: url(../../images/background.png);
+    margin-right: 0px;
+    margin-left: 0px;
+}
+
+.route-main{
+    padding-top: 100px;
+    padding-bottom: 80px;
+    font-size: larger;
+    color: white;
+}
+
+.route-heading-color{
+    color:#b84d45;
+}
+.sColor {
+    color: #8A0808;
+}
+
+.dColor {
+    color: #08298A;
+}
+
+.route-btn-top-pad{
+    margin-top:20px;
+    margin-bottom:50px;
+}
+
+.route-output-heading{
+    margin-top:30px;
+    margin-bottom:20px;
+    color:#b84d45 !important;
+}
+
+#mapCanvas {
+    height: 300px;
+    text-align: center;
+    border:1px solid green;
+}
+
+.zeroLeftPadding {
+    padding-left: 0px;
+    padding-top: 20px;
+}
+
+.border-div-color{
+    border:1px solid darkblue;
+    background-color:lightblue;
+    height:250px;
+}
+
+
+.div-color {
+    height: auto;
+    color: white;
+    padding-left:0px;
+    padding-right:0px;
+}
+
+    .div-color .text-center {
+        margin-bottom: 30px;
+    }
+
+    .non-sign-user{
+        color:black;
+    }
+
+.bookmark_div {
+    color:black;
+    border:1px solid darkblue;
+    background-color:lightblue;
+    height:250px;
+    overflow-y:scroll;
+}
+
+.table-upper-border tbody tr td{
+    border-top:none;
+}
+
+.route-padding-bottom{
+    margin-top:20px;
+}
+
+.text-center h1 {
+    margin-top: 30px;
+}
+
+.search-btn-pad-top {
+    margin-top: 30px;
+    padding-bottom: 20px;
+}
+
+/* Styles go here */
+.collapsible-row:hover {
+    cursor: pointer;
+    background-color: #EDF4F5;
+}
+
+.table-filter {
+    margin-bottom: 20px;
+}
+
+    .table-filter input {
+        width: 200px;
+        display: inline-block;
+        margin-right: 20px;
+    }
+
+    .table-filter:first-child input {
+        float: left;
+        display: block;
+    }
+
+    .table-filter::after {
+        visibility: hidden;
+        display: block;
+        font-size: 0;
+        content: " ";
+        clear: both;
+        height: 0;
+    }
+
+.right-caret {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 2px;
+    vertical-align: middle;
+    border-left: 4px solid;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+}

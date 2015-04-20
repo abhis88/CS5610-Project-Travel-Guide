@@ -6,291 +6,98 @@
     <link href="css/bootstrap.css" rel="stylesheet" />
     <link href="css/bootstrap-theme.css" rel="stylesheet" />
     <link href="css/index.css" rel="stylesheet" />
+    <link href="views/contact/contact.css" rel="stylesheet" />
+    <link href="services/route/route.css" rel="stylesheet" />
+    <link href="views/home/home.css" rel="stylesheet" />
+    <link href="views/login/login.css" rel="stylesheet" />
+    <link href="views/register/register.css" rel="stylesheet" />
+    <link href="services/weather/weather.css" rel="stylesheet" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
+    <script src="https://maps.googleapis.com/maps/api/js?&sensor=false"></script>
     <script src="js/jquery-1.11.2.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/angular.js"></script>
+    <script src="js/angular-route.js"></script>
+    <script src="js/app.js"></script>
 </head>
 
-<body>
-    <!-- NAVIGATION BAR -->
-    <div class="navbar-wrapper">
-            <div class="navbar navbar-inverse navbar-static-top">
-                <div class="navbar-header">
-                    <a class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </a>
-                    <a class="navbar-brand" href="#">Travel Guide</a>
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="active"><a href="#">Home</a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Services <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Gallery</a></li>
-                                <li><a href="#">Route</a></li>
-                                <li><a href="#">Weather</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#">Contact</a></li>
-                        <li><a href="#" data-toggle="modal" data-target=".bs-modal-sm">Sign In</a></li>
-                    </ul>
-                </div>
+<body ng-app="travelApp" ng-controller="travelController">
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#dropmenu">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#/home">Travel Guide</a>
             </div>
-        
-    </div>
 
-    <!-- Sign In Modal Starts here -->
-    <div class="modal fade bs-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <br>
-                <div class="bs-example bs-example-tabs">
-                    <ul id="myTab" class="nav nav-tabs">
-                        <li class="active"><a href="#signin" data-toggle="tab">Sign In</a></li>
-                        <li class=""><a href="#signup" data-toggle="tab">Sign Up</a></li>
-                        <li class=""><a href="#why" data-toggle="tab">Why?</a></li>
-                    </ul>
-                </div>
-                <div class="modal-body">
-                    <div id="myTabContent" class="tab-content">
-                        <div class="tab-pane fade in" id="why">
-                            <p>We need this information so that you can receive access to the site and its content. Rest assured your information will not be sold, traded, or given to anyone.</p>
-                            <p></p><br> Please contact <a mailto:href="kumar.abh@husky.neu.edu">kumar.abh@husky.neu.edu</a> for any other inquiries.</p>
-                        </div>
-                        <div class="tab-pane fade active in" id="signin">
-                            <form class="form-horizontal">
-                                <fieldset>
-                                    <!-- Sign In Form -->
-                                    <!-- Text input-->
-                                    <div class="control-group">
-                                        <label class="control-label" for="userid">User Name:</label>
-                                        <div class="controls">
-                                            <input required="" id="userid" name="userid" type="text" class="form-control input-medium" placeholder="Abhishek">
-                                        </div>
-                                    </div>
-                                    <!-- Password input-->
-                                    <div class="control-group">
-                                        <label class="control-label" for="passwordinput">Password:</label>
-                                        <div class="controls">
-                                            <input required="" id="passwordinput" name="passwordinput" class="form-control input-medium" type="password" placeholder="********">
-                                        </div>
-                                    </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="dropmenu">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="#/home" title="Home">Home</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown" title="Our Services">Services <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="#/route"><i class="fa fa-globe fa-fw"></i> Route Finder </a>
+                            </li>
+                            <li>
+                                <a href="#/weather"><i class="fa fa-sun-o fa-fw"></i> Weather Info</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="" title="Blog">Blog</a>
+                    </li>
+                    <li>
+                        <a href="#/contact" title="Help">Contact</a>
+                    </li>
+                </ul>
 
-                                    <!-- Multiple Checkboxes (inline) -->
-                                    <div class="control-group">
-                                        <label class="control-label" for="rememberme"></label>
-                                        <div class="controls">
-                                            <label class="checkbox inline" for="rememberme-0">
-                                                &nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="rememberme" id="rememberme-0" value="Remember me">
-                                                Remember me
-                                            </label>
-                                        </div>
-                                    </div>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a ng-show="!currentUser" href="" class="dropdown-toggle" data-toggle="dropdown" title="Login Register"><i class="fa fa-gear text-yellow"></i> Login/Register <b class="caret"></b></a>
+                        <a ng-show="currentUser" href="" class="dropdown-toggle" data-toggle="dropdown" title="Login Register"><i class="fa fa-gear text-yellow"></i> Welcome, {{currentUser.firstname}} <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li ng-show="!currentUser">
+                                <a href="#/login"><i class="fa fa-fw fa-user"></i> Login </a>
+                            </li>
+                            <li ng-show="currentUser">
+                                <a href="#/profile"><i class="fa fa-fw fa-user"></i> Profile</a>
+                            </li>
+                            <li ng-show="!currentUser">
+                                <a href="#/register"><i class="fa fa-fw fa-user-plus"></i> Register</a>
+                            </li>
+                            <li ng-show="currentUser">
+                                <a href="#/logout" ng-click="logout()"><i class="fa fa-fw fa-power-off"></i> Logout</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
 
-                                    <!-- Button -->
-                                    <div class="control-group">
-                                        <label class="control-label" for="signin"></label>
-                                        <div class="controls">
-                                            <button id="signin" name="signin" class="btn btn-success">Sign In</button>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                            </form>
-                        </div>
-                        <div class="tab-pane fade" id="signup">
-                            <form class="form-horizontal">
-                                <fieldset>
-                                    <!-- Sign Up Form -->
-                                    <!-- Text input-->
-                                    <div class="control-group">
-                                        <label class="control-label" for="Email">Email:</label>
-                                        <div class="controls">
-                                            <input id="Email" name="Email" class="form-control input-large" type="text" placeholder="kumar.abh@husky.neu.edu" required="">
-                                        </div>
-                                    </div>
+    <div ng-view></div>
 
-                                    <!-- Text input-->
-                                    <div class="control-group">
-                                        <label class="control-label" for="userid">User Name:</label>
-                                        <div class="controls">
-                                            <input id="userid" name="userid" class="form-control input-large" type="text" placeholder="Abhishek" required="">
-                                        </div>
-                                    </div>
-
-                                    <!-- Password input-->
-                                    <div class="control-group">
-                                        <label class="control-label" for="password">Password:</label>
-                                        <div class="controls">
-                                            <input id="password" name="password" class="form-control" type="password" placeholder="********" class="input-large" required="">
-                                            <em>1-8 Characters</em>
-                                        </div>
-                                    </div>
-
-                                    <!-- Text input-->
-                                    <div class="control-group">
-                                        <label class="control-label" for="reenterpassword">Re-Enter Password:</label>
-                                        <div class="controls">
-                                            <input id="reenterpassword" class="form-control" name="reenterpassword" type="password" placeholder="********" class="input-large" required="">
-                                        </div>
-                                    </div>
-
-                                    <!-- Multiple Radios (inline) -->
-                                    <br>
-                                    <div class="control-group">
-                                        <label class="control-label" for="humancheck">Are you Human?</label>
-                                        <div class="controls">
-                                            <label class="radio inline" for="humancheck-0">
-                                                &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="humancheck" id="humancheck-0" value="robot" checked="checked">I'm a Robot
-                                            </label>
-                                            <label class="radio inline" for="humancheck-1">
-                                                &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="humancheck" id="humancheck-1" value="human">I'm Human
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    <!-- Button -->
-                                    <div class="control-group">
-                                        <label class="control-label" for="confirmsignup"></label>
-                                        <div class="controls">
-                                            <button id="confirmsignup" name="confirmsignup" class="btn btn-success">Sign Up</button>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <center>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </center>
+    <div class="row index-footer">
+        <div class="container">
+            <div class="col-lg-12 col-sm-6 text-center">
+                <div>
+                    CopyRight &copy; Abhishek Kumar, Northeastern University, April 2015.
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Sign In Modal Ends here -->
-
-    <!-- CAROUSEL -->
-    <div class="container-width">
-        <div id="myCarousel" class="carousel slide" data-ride="carousel">
-            <ol class="carousel-indicators">
-                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                <li data-target="#myCarousel" data-slide-to="1" class=""></li>
-                <li data-target="#myCarousel" data-slide-to="2" class=""></li>
-            </ol>
-            <div class="carousel-inner">
-                <div class="item active">
-                    <img src="images/flight1.jpg" alt="First slide">
-                    <div class="container">
-                        <div class="carousel-caption">
-                            <h2>Gallery</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <img src="images/flight2.jpg" alt="Second slide">
-                    <div class="container">
-                        <div class="carousel-caption">
-                            <h2>Route</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <img src="images/flight3.jpg" alt="Third slide">
-                    <div class="container">
-                        <div class="carousel-caption">
-                            <h2>Weather</h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-
-    <div class="container marketing">
-
-        <div class="row services"><h1><b>SERVICES</b></h1></div>
-
-        <div class="row">
-            <div class="col-md-4 text-center">
-                <img class="img-circle" src="images/gallery.jpg">
-                <h2>Gallery</h2>
-                <p>
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                    when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                </p>
-                <p><a class="btn btn-default" href="#">View details »</a></p>
-            </div>
-            <div class="col-md-4 text-center">
-                <img class="img-circle" src="images/route.jpg">
-                <h2>Route Finder</h2>
-                <p>
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                    when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                </p>
-                <p><a class="btn btn-default" href="#">View details »</a></p>
-            </div>
-            <div class="col-md-4 text-center">
-                <img class="img-circle" src="images/weather1.jpg">
-                <h2>Weather</h2>
-                <p>
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                    when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                </p>
-                <p><a class="btn btn-default" href="#">View details »</a></p>
-            </div>
-        </div>
-
-        <hr class="featurette-divider">
-
-        <div class="featurette">
-            <img class="featurette-image img-circle pull-right img-responsive" src="images/vegas.jpg">
-            <h2 class="featurette-heading">Top 10 Destinations. <span class="text-muted">It'll blow your mind.</span></h2>
-            <p class="lead">
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-            </p>
-        </div>
-
-        <hr class="featurette-divider">
-
-        <div class="featurette">
-            <img class="featurette-image img-circle pull-left img-responsive" src="images/discount.jpg">
-            <h2 class="featurette-heading">Better Deals. <span class="text-muted">Minimum 20% discount.</span></h2>
-            <p class="lead">
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-            </p>
-        </div>
-
-        <hr class="featurette-divider">
-
-        <div class="featurette">
-            <img class="featurette-image img-circle pull-right img-responsive" src="images/hotel.jpg">
-            <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Hotel Deals.</span></h2>
-            <p class="lead">
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-            </p>
-        </div>
-
-        <hr class="featurette-divider">
-
-        <!-- /END THE FEATURETTES -->
-        <!-- FOOTER -->
-        <footer>
-            <p class="pull-right"><a href="#">Back to top</a></p>
-            <p>This Bootstrap layout is compliments of Bootply. · <a href="#">Edit on Bootply.com</a></p>
-        </footer>
-
     </div>
 </body>
 </html>

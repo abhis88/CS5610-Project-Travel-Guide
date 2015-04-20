@@ -1,0 +1,76 @@
+﻿<div class="row route-margin-top">
+    <div class="container route-main">
+        <h1>Profile</h1>
+        <h4>Below are you profile details. Please contact admin in case you need to change anything.</h4>
+    </div>
+</div>
+
+
+<div class="container">
+        <div class="row container">
+            <h1>Welcome, {{currentUser.firstname}}</h1>
+        </div>
+        <div>
+            <h3>You Details:</h3>
+            <br />
+            <div class="col-lg-1"></div>
+            <div class="col-xs-5">
+                <table class="table">
+                    <tbody>
+                        <tr> <td><b>First Name</b></td> <td>{{currentUser.firstname}}</td> </tr>
+                        <tr> <td><b>Last Name</b></td> <td>{{currentUser.lastname}}</td> </tr>
+                        <tr> <td><b>User Name</b></td> <td>{{currentUser.username}}</td> </tr>
+                        <tr> <td><b>Email Id</b> </td> <td>{{currentUser.email}}</td> </tr>
+                        <tr> <td><b>About me</b> </td> <td>{{currentUser.about}}</td> </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-4 col-md-push-2">
+                <div ng-show="currentUser">
+                    <h3>Route Bookmarks</h3>
+                    <table class="table table-responsive table-condensed table-upper-border">
+                        <tbody>
+                            <tr ng-repeat="bm in bookmarks">
+                                <td>{{bm.bookmark}}</td>
+                                <td>
+                                    <!--<button class="btn btn-warning" ng-click="fetchRouteDetailFromProfile(bm)">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                    </button>-->
+                                    <button class="btn btn-primary" ng-click="deleteBookmark(bm)">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br />
+                    
+                    <div ng-show="currentUser">
+                        <h3>Weather Bookmarks</h3>
+                        <table class="table table-responsive table-condensed table-upper-border">
+                            <tbody>
+                                <tr ng-repeat="bm in weatherbookmarks">
+                                    <td>{{bm.bookmark}}</td>
+                                    <td>
+                                        <!--<button class="btn btn-warning" ng-click="fetchWeatherPlaceDetails(bm)">
+                                            <span class="glyphicon glyphicon-plus"></span>
+                                        </button>-->
+                                        <button class="btn btn-primary" ng-click="deleteWeatherBookmark(bm)">
+                                            <span class="glyphicon glyphicon-trash"></span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div ng-show="!currentUser">
+                    <h3>Welcome, Guest</h3>You need to signin to bookmark
+                    <h3>Search route to reach your favourite destination</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+

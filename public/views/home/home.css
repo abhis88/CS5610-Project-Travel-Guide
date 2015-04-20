@@ -1,0 +1,79 @@
+﻿.main-heading {
+    text-align: center;
+    color: white;
+    background-color: #b84d45;
+    background-image: url(../../images/background.png);
+    padding-top: 150px;
+    padding-bottom: 150px;
+}
+
+.brand-name {
+    font-size: 500%;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.btn-more-info {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 18px;
+    margin-top: 20px;
+    background-color: transparent;
+    font-family: Arial;
+    border: 1px solid white;
+    display: inline-block;
+    border-radius: 4px;
+    color: white;
+}
+
+    .btn-more-info:hover {
+        background-color: whitesmoke;
+    }
+
+.home-page-detail {
+    font-size: 35px;
+    margin-top: 50px;
+    font-weight: 300;
+}
+
+.home-page-sub-detail {
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+.small {
+    max-width: 50%;
+    margin-top: 10px;
+    margin-bottom: 50px auto;
+    border-color: rgba(0,0,0,.2);
+}
+
+.home-quote {
+    margin-bottom: 5%;
+    margin-top: 5%;
+}
+
+.home-main-content {
+    color: white;
+    background-color: #b84d45;
+    background-image: url(../../images/background.png);
+    padding-top: 100px;
+    padding-bottom: 100px;
+    font-size: larger;
+    margin-right: 0px;
+    margin-left: 0px;
+}
+
+.home-route-content p {
+    font-size: 25px;
+    font-family: monospace;
+}
+
+.home-weather-content{
+    padding-top: 100px;
+    padding-bottom: 100px;
+    font-size: larger;
+    margin-right: 0px;
+    margin-left: 0px;
+}

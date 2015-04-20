@@ -1,0 +1,36 @@
+html, body {
+    padding: 0px;
+    margin: 0px;
+    height:auto;
+    font-size: 100%;
+    line-height: 1.6;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+body {
+  padding-top: 0px;
+  padding-bottom: 0px;
+  
+}
+.indexPageDiv{
+    background-color:#FFFFCC;
+}
+.nav_div{
+    padding-left:0px;
+    padding-right:0px;
+    padding-top:15px;
+    padding-bottom:15px;
+
+}
+
+.nav-bg-color{
+    background-color:#CCCCCC;
+}
+
+.footer_div{
+    background-color:#CCCCCC;
+    height:40px;
+    text-align:center;
+    padding-top:5px;
+    margin-top:20px;
+}

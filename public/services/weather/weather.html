@@ -1,0 +1,161 @@
+<div class="row route-margin-top">
+    <div class="container route-main">
+        <h1>WEATHER INFO</h1>
+        <h4>It's always good to know the weather forecast before you leave your home.</h4>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 route-heading-color">
+            <h2>Find Weather Info</h2>
+
+            <div class="form-inline route-padding-bottom">
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="">CITY</span>
+                        <input class="form-control" ng-model="weatherCity" placeholder="Boston" id="source" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-inline route-btn-top-pad">
+                <button class="btn btn-success text-center route-btn-primary" ng-click="searchWeather()">
+                    <span class="glyphicon glyphicon-search">&nbsp;Search</span>
+                </button>
+                <button class="btn btn-warning" ng-click="favWeather()" ng-show="currentUser">
+                    <span class="glyphicon glyphicon-star">&nbsp;Bookmark</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-md-push-2">
+            <div ng-show="currentUser">
+                <h3>Your Saved Bookmarks</h3>
+                <table class="table table-responsive table-condensed table-upper-border">
+                    <tbody>
+                        <tr ng-repeat="bm in weatherbookmarks">
+                            <td>{{bm.bookmark}}</td>
+                            <td>
+                                <button class="btn btn-warning" ng-click="fetchWeatherPlaceDetails(bm)">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </button>
+                                <button class="btn btn-primary" ng-click="deleteWeatherBookmark(bm)">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div ng-show="!currentUser">
+                <h3>Welcome, Guest</h3>You need to signin to bookmark
+                <h3>Search route to reach your favourite destination</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row text-center" ng-show="showWeatherCheck">
+        <h2 class="text-center">Your searched for <b class="sColor">{{searchCity}}</b></h2>
+    </div>
+</div>
+
+
+<div class="container weather-output-heading" ng-show="showWeatherCheck">
+    <h2>Current condition</h2>
+    <table class="table table-stripped">
+        <thead>
+            <tr class="heading_color">
+                <th>Temprature (c) C</th>
+                <th>Temprature (f) F</th>
+                <th>Feels Like (c)</th>
+                <th>Feels Like (f)</th>
+                <th>humidity C</th>
+                <th>Desc F</th>
+                <th>Wind Speed C</th>
+                <th>weatherImg</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="weather in weathers">
+                <td>{{weather.temp_C}}</td>
+                <td>{{weather.temp_F}}</td>
+                <td>{{weather.FeelsLikeC}}</td>
+                <td>{{weather.FeelsLikeF}}</td>
+                <td>{{weather.humidity}}</td>
+                <td>{{weather.weatherDesc[0].value}}</td>
+                <td>{{weather.windspeedKmph}}</td>
+                <td><img ng-src="{{weather.weatherIconUrl[0].value}}" /></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<div class="container">
+    <div class="row container weather-output-heading" ng-show="showWeatherCheck">
+        <h2>Future condition</h2>
+        <table class="table table-stripped">
+            <thead>
+                <tr class="heading_color">
+                    <th>Date</th>
+                    <th>Sunrise</th>
+                    <th>Sunset</th>
+                    <th>MinTemp (c)</th>
+                    <th>Max Tem (c)</th>
+                    <th>MinTemp (f)</th>
+                    <th>Max Temp (f)</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="fW in futureWeather">
+                    <td>{{fW.date}}</td>
+                    <td>{{fW.astronomy[0].sunrise}}</td>
+                    <td>{{fW.astronomy[0].sunset}}</td>
+                    <td>{{fW.mintempC}}</td>
+                    <td>{{fW.maxtempC}}</td>
+                    <td>{{fW.mintempF}}</td>
+                    <td>{{fW.maxtempF}}</td>
+                    <td>
+                        <button class="btn btn-warning" ng-click="fetchHourly(fW)">
+                            <span class="glyphicon glyphicon-map-marker">Hourly</span>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row container weather-output-heading" ng-show="showHourlyCheck">
+        <h2>Hourly condition</h2>
+        <table class="table table-stripped">
+            <thead>
+                <tr class="heading_color">
+                    <th>Time</th>
+                    <th>Temp (c)</th>
+                    <th>Temp (f)</th>
+                    <th>Visibility (c)</th>
+                    <th>Desc</th>
+                    <th>Image</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="fH in hourlyWeather">
+                    <td>{{fH.time}}</td>
+                    <td>{{fH.tempC}}</td>
+                    <td>{{fH.tempF}}</td>
+                    <td>{{fH.visibility}}</td>
+                    <td>{{fH.weatherDesc[0].value}}</td>
+                    <td><img ng-src="{{fH.weatherIconUrl[0].value}}" /></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
