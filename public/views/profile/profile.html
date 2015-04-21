@@ -5,72 +5,130 @@
     </div>
 </div>
 
+<div class="container profile-heading-color">
+    <h2>Profile Details</h2>
+</div>
 
 <div class="container">
-        <div class="row container">
-            <h1>Welcome, {{currentUser.firstname}}</h1>
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6 profile-welcome-div">
+            <div class="row">
+                <div class="col-md-4">
+                    <b>First Name</b>
+                </div>
+                <div class="col-md-4" ng-show="!editable">
+                    {{currentUser.firstname}}
+                </div>
+                <div class="col-md-8" ng-show="editable">
+                    <input class="form-control" ng-model="currentUser.firstname">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <b>Last Name</b>
+                </div>
+                <div class="col-md-4" ng-show="!editable">
+                    {{currentUser.lastname}}
+                </div>
+                <div class="col-md-8" ng-show="editable">
+                    <input class="form-control" ng-model="currentUser.lastname">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <b>About</b>
+                </div>
+                <div class="col-md-4" ng-show="!editable">
+                    {{currentUser.about}}
+                </div>
+                <div class="col-md-8" ng-show="editable">
+                    <input class="form-control" ng-model="currentUser.about">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <b>Email</b>
+                </div>
+                <div class="col-md-4" ng-show="!editable">
+                    {{currentUser.email}}
+                </div>
+                <div class="col-md-8" ng-show="editable">
+                    <input class="form-control" ng-model="currentUser.email">
+                </div>
+            </div>
+            <div class="row">
+                <button class="btn btn-warning profile-btn-pad-left" ng-show="!editable" ng-click="selected()"><i class="fa fa-pencil"></i>&nbsp; Edit</button>
+                <button class="btn btn-success profile-btn-pad-left" ng-show="editable" ng-click="profileSave(currentUser)">Done</button>
+            </div>
         </div>
-        <div>
-            <h3>You Details:</h3>
-            <br />
-            <div class="col-lg-1"></div>
-            <div class="col-xs-5">
-                <table class="table">
-                    <tbody>
-                        <tr> <td><b>First Name</b></td> <td>{{currentUser.firstname}}</td> </tr>
-                        <tr> <td><b>Last Name</b></td> <td>{{currentUser.lastname}}</td> </tr>
-                        <tr> <td><b>User Name</b></td> <td>{{currentUser.username}}</td> </tr>
-                        <tr> <td><b>Email Id</b> </td> <td>{{currentUser.email}}</td> </tr>
-                        <tr> <td><b>About me</b> </td> <td>{{currentUser.about}}</td> </tr>
-
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="col-md-4 col-md-push-2">
-                <div ng-show="currentUser">
-                    <h3>Route Bookmarks</h3>
-                    <table class="table table-responsive table-condensed table-upper-border">
-                        <tbody>
-                            <tr ng-repeat="bm in bookmarks">
-                                <td>{{bm.bookmark}}</td>
-                                <td>
-                                    <!--<button class="btn btn-warning" ng-click="fetchRouteDetailFromProfile(bm)">
-                                        <span class="glyphicon glyphicon-plus"></span>
-                                    </button>-->
-                                    <button class="btn btn-primary" ng-click="deleteBookmark(bm)">
-                                        <span class="glyphicon glyphicon-trash"></span>
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <br />
-                    
-                    <div ng-show="currentUser">
-                        <h3>Weather Bookmarks</h3>
-                        <table class="table table-responsive table-condensed table-upper-border">
-                            <tbody>
-                                <tr ng-repeat="bm in weatherbookmarks">
-                                    <td>{{bm.bookmark}}</td>
-                                    <td>
-                                        <!--<button class="btn btn-warning" ng-click="fetchWeatherPlaceDetails(bm)">
-                                            <span class="glyphicon glyphicon-plus"></span>
-                                        </button>-->
-                                        <button class="btn btn-primary" ng-click="deleteWeatherBookmark(bm)">
-                                            <span class="glyphicon glyphicon-trash"></span>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div ng-show="!currentUser">
-                    <h3>Welcome, Guest</h3>You need to signin to bookmark
-                    <h3>Search route to reach your favourite destination</h3>
-                </div>
-            </div>
+        <div class="col-md-3">
+            <img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120" alt="Profile Image">
         </div>
     </div>
+</div>
+
+<div class="container">
+    <hr />
+    <div class="profile-heading-color">
+        <h2>Saved Bookmarks</h2>
+    </div>
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-4" ng-show="currentUser">
+            <h3>Route Bookmarks</h3>
+            <table class="table table-responsive table-condensed table-upper-border">
+                <tbody>
+                    <tr ng-repeat="bm in bookmarks">
+                        <td>{{bm.bookmark}}</td>
+                        <td>
+                            <button class="btn btn-primary" ng-click="deleteBookmark(bm)">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-4" ng-show="currentUser">
+            <h3>Weather Bookmarks</h3>
+            <table class="table table-responsive table-condensed table-upper-border">
+                <tbody>
+                    <tr ng-repeat="bm in weatherbookmarks">
+                        <td>{{bm.bookmark}}</td>
+                        <td>
+                            <button class="btn btn-primary" ng-click="deleteWeatherBookmark(bm)">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <hr />
+</div>
+
+<div class="container profile-heading-color">
+    <h2>Services Page</h2>
+</div>
+
+<div class="form-inline text-center">
+    <div class="col-md-3"></div>
+    <div class="col-md-2">
+        <a href="#/route">
+            <div class="btn btn-success btn-lg" ng-show="currentUser">
+                <i class="fa fa-globe fa-fw"></i>&nbsp;Route
+            </div>
+        </a>
+    </div>
+    <div class="col-md-4">
+        <a href="#/weather">
+            <div class="btn btn-warning btn-lg" ng-show="currentUser">
+                <i class="fa fa-sun-o fa-fw"></i>&nbsp;Weather
+            </div>
+        </a>
+    </div>
+</div>
 

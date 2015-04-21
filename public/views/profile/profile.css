@@ -1,0 +1,19 @@
+﻿.profile-welcome-div{
+    background-color: #FFFF99;
+    border-radius:5px;
+    padding-top:10px;
+    padding-bottom:5px;
+}
+
+.profile-welcome-div .row{
+    padding:5px;
+}
+
+.profile-btn-pad-left{
+    margin-left:15px;
+    margin-top:10px;
+}
+
+.profile-heading-color{
+    color:#b84d45;
+}

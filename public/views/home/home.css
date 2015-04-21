@@ -77,3 +77,29 @@
     margin-right: 0px;
     margin-left: 0px;
 }
+
+.weather-color a{
+    border:1px solid black;
+    color:black;
+}
+
+.weather-color a:hover{
+    border:1px solid #b84d45;
+    color:#b84d45;
+}
+
+.social-icons a{
+    color:#b84d45;
+    font-size:xx-large;
+    padding:20px;
+}
+
+.social-icons a:hover{
+    color:black;
+}
+
+@media screen and (max-width:768px) {
+    .weather-image-responsive{
+        margin-top:25px;
+    }
+}

@@ -1,8 +1,11 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Project HomePage</title>
+    <title>Travel Guide</title>
     <link rel="shortcut icon" href="" type="image/x-icon" title="favicon">
+    <meta charset='utf-8' />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="images/icon.ico" type="image/x-icon" title="favicon">
     <link href="css/bootstrap.css" rel="stylesheet" />
     <link href="css/bootstrap-theme.css" rel="stylesheet" />
     <link href="css/index.css" rel="stylesheet" />
@@ -12,6 +15,7 @@
     <link href="views/login/login.css" rel="stylesheet" />
     <link href="views/register/register.css" rel="stylesheet" />
     <link href="services/weather/weather.css" rel="stylesheet" />
+    <link href="views/profile/profile.css" rel="stylesheet" />
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
     <script src="https://maps.googleapis.com/maps/api/js?&sensor=false"></script>
@@ -24,7 +28,7 @@
 
 <body ng-app="travelApp" ng-controller="travelController">
     <!-- Navigation -->
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <nav class="navbar navbar-default navbar-fixed-top row" role="navigation">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
@@ -55,7 +59,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="" title="Blog">Blog</a>
+                        <a href="https://github.com/abhis88/CS5610-Project-Travel-Guide" target="_blank">Github</a>
                     </li>
                     <li>
                         <a href="#/contact" title="Help">Contact</a>
@@ -91,12 +95,8 @@
     <div ng-view></div>
 
     <div class="row index-footer">
-        <div class="container">
-            <div class="col-lg-12 col-sm-6 text-center">
-                <div>
-                    CopyRight &copy; Abhishek Kumar, Northeastern University, April 2015.
-                </div>
-            </div>
+        <div class="container text-center">
+            CopyRight &copy; Abhishek Kumar, Northeastern University, April 2015.
         </div>
     </div>
 </body>

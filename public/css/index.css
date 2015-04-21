@@ -3,9 +3,14 @@
     background-color: #b84d45;
     background-image: url(../../images/background.png);
     padding-top: 50px;
-    padding-bottom: 50px;
+    padding-bottom: 30px;
     font-size: larger;
     margin-right: 0px;
     margin-left: 0px;
     margin-top:150px;
+}
+
+.row{
+    margin-left:0;
+    margin-right:0;
 }

@@ -63,7 +63,6 @@ passport.deserializeUser(function (user, done) {
 
 app.post("/login", passport.authenticate('local'), function (req, res) {
     var user = req.user;
-    console.log(user);
     res.json(user);
 });
 
@@ -74,14 +73,6 @@ app.post("/logout", function (req, res) {
 
 app.get("/loggedin", function (req, res) {
     res.send(req.isAuthenticated() ? req.user : '0');
-});
-
-app.get("/fetchfavplaces/:id", function (req, res) {
-    UserModel.findById(req.params.id, function (err, doc) {
-        UserModel.find(function (err, data) {
-            res.json(data);
-        });
-    });
 });
 
 app.post("/register", function (req, res) {
@@ -95,19 +86,21 @@ app.post("/register", function (req, res) {
     });
 });
 
-app.put("/favroutes", function (req, res) {
-    UserModel.where('_id', req.body._id).update({ $set: { favroutes: req.body.favroutes } }, function (err, count) {
-        console.log(count);
-        res.send(200);
+app.put("/updateuser", function (req, res) {
+    UserModel.where('_id', req.body._id).update({ $set: { firstname: req.body.firstname, lastname: req.body.lastname, email: req.body.email, about: req.body.about } }, function (err, count) {
+        res.json(req.body);
     });
 });
 
+app.get("/fetchalluserinfo/:id", function (req, res) {
+    UserModel.findById(req.params.id, function (err, data) {
+        res.json(data);
+    });
+});
+
+
 app.delete("/deletebookmark/:favid/:id", function (req, res) {
     var result = null;
-
-    console.log(req.params.favid);
-    console.log(req.params.id);
-
     UserModel.findOne({ _id: req.params.id }, function (err, res) {
         UserModel.update({ _id: res._id },
             { $pull: { favplaces: { _id: req.params.favid } } }, function (err, result) {
@@ -120,7 +113,6 @@ app.delete("/deletebookmark/:favid/:id", function (req, res) {
 
 app.put("/favplaces", function (req, res) {
     var result = null;
-
     UserModel.findOne({ _id: req.body._id }, function (err, res) {
         UserModel.update({ _id: res._id },
             { $push: { favplaces: { $each: [{ bookmark: req.body.favplaces }] } } }, function (err, result) {
@@ -128,7 +120,6 @@ app.put("/favplaces", function (req, res) {
                 result = result;
             });
     });
-
     res.json(req.body);
 });
 
@@ -145,21 +136,8 @@ app.put("/weatherplaces", function (req, res) {
     res.json(req.body);
 });
 
-app.get("/fetchweatherplaces/:id", function (req, res) {
-    UserModel.findById(req.params.id, function (err, doc) {
-        UserModel.find(function (err, data) {
-            res.json(data);
-        });
-    });
-});
-
-
 app.delete("/deleteweatherbookmark/:favid/:id", function (req, res) {
     var result = null;
-
-    console.log(req.params.favid);
-    console.log(req.params.id);
-
     UserModel.findOne({ _id: req.params.id }, function (err, res) {
         UserModel.update({ _id: res._id },
             { $pull: { favweather: { _id: req.params.favid } } }, function (err, result) {
