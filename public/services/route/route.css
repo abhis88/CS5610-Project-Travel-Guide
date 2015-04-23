@@ -1,20 +1,21 @@
-.route-margin-top{
+.route-margin-top {
     background-color: #b84d45;
     background-image: url(../../images/background.png);
     margin-right: 0px;
     margin-left: 0px;
 }
 
-.route-main{
+.route-main {
     padding-top: 100px;
     padding-bottom: 80px;
     font-size: larger;
     color: white;
 }
 
-.route-heading-color{
-    color:#b84d45;
+.route-heading-color {
+    color: #b84d45;
 }
+
 .sColor {
     color: #8A0808;
 }
@@ -23,21 +24,21 @@
     color: #08298A;
 }
 
-.route-btn-top-pad{
-    margin-top:20px;
-    margin-bottom:50px;
+.route-btn-top-pad {
+    margin-top: 20px;
+    margin-bottom: 50px;
 }
 
-.route-output-heading{
-    margin-top:30px;
-    margin-bottom:20px;
-    color:#b84d45 !important;
+.route-output-heading {
+    margin-top: 30px;
+    margin-bottom: 20px;
+    color: #b84d45 !important;
 }
 
 #mapCanvas {
     height: 300px;
     text-align: center;
-    border:1px solid green;
+    border: 1px solid green;
 }
 
 .zeroLeftPadding {
@@ -45,42 +46,42 @@
     padding-top: 20px;
 }
 
-.border-div-color{
-    border:1px solid darkblue;
-    background-color:lightblue;
-    height:250px;
+.border-div-color {
+    border: 1px solid darkblue;
+    background-color: lightblue;
+    height: 250px;
 }
 
 
 .div-color {
     height: auto;
     color: white;
-    padding-left:0px;
-    padding-right:0px;
+    padding-left: 0px;
+    padding-right: 0px;
 }
 
     .div-color .text-center {
         margin-bottom: 30px;
     }
 
-    .non-sign-user{
-        color:black;
-    }
+.non-sign-user {
+    color: black;
+}
 
 .bookmark_div {
-    color:black;
-    border:1px solid darkblue;
-    background-color:lightblue;
-    height:250px;
-    overflow-y:scroll;
+    color: black;
+    border: 1px solid darkblue;
+    background-color: lightblue;
+    height: 250px;
+    overflow-y: scroll;
 }
 
-.table-upper-border tbody tr td{
-    border-top:none;
+.table-upper-border tbody tr td {
+    border-top: none;
 }
 
-.route-padding-bottom{
-    margin-top:20px;
+.route-padding-bottom {
+    margin-top: 20px;
 }
 
 .text-center h1 {
@@ -131,4 +132,11 @@
     border-left: 4px solid;
     border-top: 4px solid transparent;
     border-bottom: 4px solid transparent;
+}
+
+
+@media screen and (max-width:545px) {
+    .table-responsive-changes {
+        font-size:8px;
+    }
 }

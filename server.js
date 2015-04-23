@@ -76,15 +76,35 @@ app.get("/loggedin", function (req, res) {
 });
 
 app.post("/register", function (req, res) {
-    var newUser = new UserModel(req.body);
+    var newUser = req.body;
     newUser.roles = ['student'];
-    newUser.save(function (err, user) {
-        req.login(user, function (err) {
-            if (err) { return next(err); }
-            res.json(user);
-        });
+    UserModel.findOne({ username: newUser.username }, function (err, user) {
+        if (err) { return next(err); }
+        console.log(user);
+        if (user) {
+            res.json(null);
+            return;
+        }
+        else {
+            var newUser = new UserModel(req.body);
+            newUser.save(function (err, user) {
+                req.login(user, function (err) {
+                    if (err) { return next(err); }
+                    console.log(user);
+                    res.json(user);
+                });
+            });
+        }
     });
 });
+
+//Duplicate username prevention
+app.get("/duplicateusername/:username", function (req, res) {
+    UserModel.find({ username: { "$in": [req.params.username] } }, function (err, data) {
+        res.json(data);
+    });
+});
+
 
 app.put("/updateuser", function (req, res) {
     UserModel.where('_id', req.body._id).update({ $set: { firstname: req.body.firstname, lastname: req.body.lastname, email: req.body.email, about: req.body.about } }, function (err, count) {
@@ -97,7 +117,6 @@ app.get("/fetchalluserinfo/:id", function (req, res) {
         res.json(data);
     });
 });
-
 
 app.delete("/deletebookmark/:favid/:id", function (req, res) {
     var result = null;

@@ -10,37 +10,44 @@ app.controller("travelController",
                 .success(function (response) {
                     //console.log(response);
                     $rootScope.currentUser = response;
-                    $http.get("/fetchalluserinfo/" + $rootScope.currentUser._id)
+                    if ($rootScope.currentUser == null) {
+                        $rootScope.wronglogindetails = 1;
+                    } else {
+                        $rootScope.wronglogindetails = null;
+                        $http.get("/fetchalluserinfo/" + $rootScope.currentUser._id)
                         .success(function (response) {
                             $rootScope.bookmarks = response.favplaces;
                             $rootScope.weatherbookmarks = response.favweather;
                         });
-                    $location.url("/profile");
+                        $location.url("/profile");
+                    }
                 });
-		        if ($rootScope.currentUser == null) {
-		            $rootScope.wronglogindetails = 1;
-		        }else
-		        {
-		            $rootScope.wronglogindetails = null;
-		        }
-
 		    }
 		    $scope.register = function (user) {
+		        $scope.duplicateusername = null;
+		        $rootScope.wrongregistercredentials = null;
 		        if ((user.password != user.reenterpassword) ||
                     (user.firstname == undefined || user.lastname == undefined || user.email == undefined || user.password == undefined || user.username == undefined) ||
                     (user.firstname == "" || user.lastname == "" || user.email == "" || user.password == "" || user.username == "")) {
 		            $rootScope.wrongregistercredentials = 1;
+		            $scope.duplicateusername = null;
 		        }
 		        else {
 		            $http.post("/register", user)
-                .success(function (response) {
-                    if (response != null) {
-                        $rootScope.currentUser = response;
-                        $rootScope.bookmarks = null;
-                        $rootScope.weatherbookmarks = null;
-                        $location.url("/profile");
-                    }
-                });
+                    .success(function (response) {
+                        if (response != null) {
+                            console.log(response);
+                            $rootScope.currentUser = response;
+                            $rootScope.bookmarks = null;
+                            $rootScope.weatherbookmarks = null;
+                            $rootScope.wrongregistercredentials = null;
+                            $scope.duplicateusername = null;
+                            $location.url("/profile");
+                        }
+                        else {
+                            $scope.duplicateusername = 1;
+                        }
+                    });
 		        }
 		    }
 		    $scope.logout = function () {
@@ -61,7 +68,7 @@ app.controller("travelController",
                 .success(function (response) {
                     console.log("Log from update user app js");
                     console.log(response);
-                    $scope.currentUser = response;
+                    $rootScope.currentUser = response;
                 });
 		        $scope.editable = null;
 		    }
@@ -168,11 +175,6 @@ app.controller("travelController",
                         $scope.actualResponse = response;
                         $scope.showCheck = 1;
 
-                        $http.get("/fetchfavplaces/" + $scope.currentUser._id)
-                        .success(function (response) {
-                            $scope.bookmarks = response[0].favplaces;
-                        });
-
                         /* Google Map Coordinates */
 
                         var mapOptions = {
@@ -213,6 +215,7 @@ app.controller("travelController",
 		    $scope.fetchHourly = function (fW) {
 		        var index = $scope.data.weather.indexOf(fW);
 		        //console.log(index);
+		        $scope.hourlydate = fW.date;
 		        $scope.hourlyWeather = $scope.data.weather[index].hourly;
 		        $scope.showHourlyCheck = 1;
 		    }
@@ -223,6 +226,7 @@ app.controller("travelController",
 		        .success(function (response) {
 		            $scope.weathers = response.data.current_condition;
 		            $scope.weatherCity = response.data.request[0].query;
+		            $scope.imageCity = response.data.request[0].query;
 		            $scope.searchCity = $scope.weatherCity;
 		            $scope.futureWeather = response.data.weather;
 		            $scope.data = response.data;
@@ -271,7 +275,7 @@ app.controller("travelController",
 
 		            $rootScope.weatherCity = response.data.request[0].query;
 		            $scope.searchCity = $rootScope.weatherCity;
-
+		            $scope.imageCity = response.data.request[0].query;
 		            $scope.futureWeather = response.data.weather;
 		            $scope.data = response.data;
 		            $scope.showWeatherCheck = 1;
@@ -325,24 +329,17 @@ var checkLoggedIn = function ($q, $timeout, $http, $location, $rootScope) {
     var deferred = $q.defer();
 
     $http.get('/loggedin').success(function (user) {
+
         $rootScope.errorMessage = null;
         // User is Authenticated
         if (user !== '0') {
-
-            $rootScope.currentUser = user;
-
-            //// Fetch Favourite Places 
-            //$http.get("/fetchfavplaces/" + $rootScope.currentUser._id)
-            //            .success(function (response) {
-            //                $rootScope.bookmarks = response[0].favplaces;
-            //                //$rootScope.currentUser = response[0];
-            //            });
-
-            //// Fetch Weather Places
-            //$http.get("/fetchweatherplaces/" + $rootScope.currentUser._id)
-            //            .success(function (response) {
-            //                $rootScope.weatherbookmarks = response[0].favweather;
-            //            });
+            console.log(user);
+            $http.get("/fetchalluserinfo/" + user._id)
+            .success(function (response) {
+                $rootScope.currentUser = response;
+                $rootScope.bookmarks = response.favplaces;
+                $rootScope.weatherbookmarks = response.favweather;
+            });
             deferred.resolve();
         }
             // User is Not Authenticated

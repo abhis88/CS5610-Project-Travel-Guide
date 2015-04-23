@@ -25,7 +25,7 @@
                     <span class="glyphicon glyphicon-search">&nbsp;Search</span>
                 </button>
                 <button class="btn btn-warning" ng-click="favWeather()" ng-show="currentUser">
-                    <i class="fa fa-bookmark"></i>&nbsp;Bookmark</span>
+                    <i class="fa fa-bookmark"></i>&nbsp;Bookmark
                 </button>
             </div>
         </div>
@@ -62,99 +62,63 @@
         <h2 class="text-center">Your searched for <b class="sColor">{{searchCity}}</b></h2>
     </div>
 </div>
+<br />
+<br />
 
-
-<div class="container weather-output-heading" ng-show="showWeatherCheck">
-    <h2>Current condition</h2>
-    <table class="table table-stripped">
-        <thead>
-            <tr class="heading_color">
-                <th>Temprature (c) C</th>
-                <th>Temprature (f) F</th>
-                <th>Feels Like (c)</th>
-                <th>Feels Like (f)</th>
-                <th>humidity C</th>
-                <th>Desc F</th>
-                <th>Wind Speed C</th>
-                <th>weatherImg</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="weather in weathers">
-                <td>{{weather.temp_C}}</td>
-                <td>{{weather.temp_F}}</td>
-                <td>{{weather.FeelsLikeC}}</td>
-                <td>{{weather.FeelsLikeF}}</td>
-                <td>{{weather.humidity}}</td>
-                <td>{{weather.weatherDesc[0].value}}</td>
-                <td>{{weather.windspeedKmph}}</td>
-                <td><img ng-src="{{weather.weatherIconUrl[0].value}}" /></td>
-            </tr>
-        </tbody>
-    </table>
+<div class="row container text-center" ng-repeat="weather in weathers">
+    <div class="col-lg-4"></div>
+    <div class="col-lg-4" style="background-image:url({{weather.weatherIconUrl[0].value}}); max-width:100%;max-height:100%; opacity:0.8;text-align:center;background-repeat:no-repeat;background-size:cover;font-size:200%;">
+        <div class="h1-bold"><h3>{{imageCity}}</h3><h1 class="h1-bold">{{weather.temp_C}}<sup>o</sup>C</h1></div>
+        <br />
+        <br />
+        <div class="h1-bold">{{weather.weatherDesc[0].value}}</div>
+        <div class="h1-bold">Feels like: {{weather.FeelsLikeC}}<sup>o</sup>C</div>
+        <div class="h1-bold">Humidity: {{weather.humidity}} %</div>
+        <div class="h1-bold">WindSpeed: {{weather.windspeedKmph}} Km/hr</div>
+    </div>
+    <div class="col-lg-3"></div>
 </div>
 
+<br />
 
 <div class="container">
     <div class="row container weather-output-heading" ng-show="showWeatherCheck">
-        <h2>Future condition</h2>
-        <table class="table table-stripped">
-            <thead>
-                <tr class="heading_color">
-                    <th>Date</th>
-                    <th>Sunrise</th>
-                    <th>Sunset</th>
-                    <th>MinTemp (c)</th>
-                    <th>Max Tem (c)</th>
-                    <th>MinTemp (f)</th>
-                    <th>Max Temp (f)</th>
-                    <th>&nbsp;</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="fW in futureWeather">
-                    <td>{{fW.date}}</td>
-                    <td>{{fW.astronomy[0].sunrise}}</td>
-                    <td>{{fW.astronomy[0].sunset}}</td>
-                    <td>{{fW.mintempC}}</td>
-                    <td>{{fW.maxtempC}}</td>
-                    <td>{{fW.mintempF}}</td>
-                    <td>{{fW.maxtempF}}</td>
-                    <td>
-                        <button class="btn btn-warning" ng-click="fetchHourly(fW)">
-                            <span class="glyphicon glyphicon-map-marker">Hourly</span>
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <h2>Forecasts</h2>
+        <div class="container">
+            <div class="col-lg-2 btn-success text-center weatherr-margin-right" ng-repeat="fW in futureWeather" style="float:left;">
+                <div style="color:black;"><h3><b></b>{{fW.date}}</h3></div>
+                <div><b>Sunrise:</b> {{fW.astronomy[0].sunrise}}</div>
+                <div><b>Sunset:</b> {{fW.astronomy[0].sunset}}</div>
+                <div><b>Min:</b> {{fW.mintempC}}<sup>o</sup>C</div>
+                <div><b>Max:</b> {{fW.maxtempC}}<sup>o</sup>C</div>
+                <br />
+                <div class="text-center">
+                    <button class="btn btn-warning" ng-click="fetchHourly(fW)">
+                        <i class="fa fa-chevron-circle-down"> &nbsp; More</i>
+                    </button>
+                </div>
+                <br />
+            </div>
+        </div>
     </div>
 </div>
-
+<br />
+<br />
 <div class="container">
-    <div class="row container weather-output-heading" ng-show="showHourlyCheck">
-        <h2>Hourly condition</h2>
-        <table class="table table-stripped">
-            <thead>
-                <tr class="heading_color">
-                    <th>Time</th>
-                    <th>Temp (c)</th>
-                    <th>Temp (f)</th>
-                    <th>Visibility (c)</th>
-                    <th>Desc</th>
-                    <th>Image</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="fH in hourlyWeather">
-                    <td>{{fH.time}}</td>
-                    <td>{{fH.tempC}}</td>
-                    <td>{{fH.tempF}}</td>
-                    <td>{{fH.visibility}}</td>
-                    <td>{{fH.weatherDesc[0].value}}</td>
-                    <td><img ng-src="{{fH.weatherIconUrl[0].value}}" /></td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="row container" ng-show="showHourlyCheck">
+        <h2>Hourly condition for : {{hourlydate}}</h2>
+        <div class="row">
+            <div class="text-center col-lg-2 hourlydivchanges" ng-repeat="fH in hourlyWeather">
+                <div class="btn-warning" style="max-width:100%;max-height:100%;opacity:0.7;background-repeat:no-repeat;border:1px solid lightgray;">
+                    <div class="row h1-bold"><h3 style="opacity:1;color:blue;">Time: {{fH.time}}</h3></div>
+                    <br />
+                    <div class="row"> <img ng-src="{{fH.weatherIconUrl[0].value}}" /></div>
+                    <div class="row" style="opacity:1;color:#FF4000;font-size:200%"><b>{{fH.tempC}}<sup>o</sup>C</b></div>
+                    <div class="row">{{fH.weatherDesc[0].value}}</div>
+                    <div class="row" style="opacity:1;color:green;font-size:150%"><b>Visibility: {{fH.visibility}} Km</b></div>
+                </div>
+                
+            </div>
+        </div>
     </div>
 </div>

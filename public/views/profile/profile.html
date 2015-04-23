@@ -37,14 +37,12 @@
             </div>
             <div class="row">
                 <div class="col-md-4">
-                    <b>About</b>
+                    <b>User Name</b>
                 </div>
-                <div class="col-md-4" ng-show="!editable">
-                    {{currentUser.about}}
+                <div class="col-md-4">
+                    {{currentUser.username}}
                 </div>
-                <div class="col-md-8" ng-show="editable">
-                    <input class="form-control" ng-model="currentUser.about">
-                </div>
+            
             </div>
             <div class="row">
                 <div class="col-md-4">
