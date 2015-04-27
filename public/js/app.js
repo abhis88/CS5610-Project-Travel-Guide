@@ -3,6 +3,12 @@ var app = angular.module("travelApp", ['ngRoute']);
 app.controller("travelController",
 		function ($scope, $http, $rootScope, $location) {
 
+		    $http.get("/getallcomments")
+                        .success(function (response) {
+                            $rootScope.allcomments = response;
+                            $rootScope.showcomments = 1;
+                        })
+
 		    // LOGIN, REGISTER, PROFILE
 
 		    $scope.login = function (user) {
@@ -25,20 +31,15 @@ app.controller("travelController",
                                           $rootScope.likedUserToBeDisplayed.push(response);
                                       });
                               }
-                              
+
                           });
+
                         $location.url("/profile");
                     })
 		        .error(function (response) {
 		            //console.log("Error");
 		            $rootScope.wronglogindetails = 1;
 		        });
-
-		        //$http.get("/getallcomments")
-                //.success(function (response) {
-                //    $rootScope.allcomments = response;
-                //})
-		        
 		    }
 
 		    $scope.register = function (user) {
@@ -437,19 +438,52 @@ app.controller("travelController",
                 })
 		    }
 		    $scope.userProfileUnLike = function () {
-		        $http.delete("/unlikeuser/" + $rootScope.selectedUserDetail._id + "/" + $scope.currentUser._id)
+		        console.log($rootScope.selectedUserDetail._id);
+		        console.log($rootScope.currentUser._id);
+
+		        $http.delete("/unlikeuser/" + $rootScope.selectedUserDetail._id + "/" + $rootScope.currentUser._id)
                 .success(function (response) {
-                    //console.log(response);
+                    console.log(response);
                     $rootScope.currentUser = response[0];
-                    //$http.get("/getalluser")
-                    //.success(function (response) {
-                    //    console.log(response);
-                    //})
+                    //LikeUserDetailToBeDisplayed
+                    $rootScope.likedUserToBeDisplayed = [];
+                    for (var i = 0; i < $rootScope.currentUser.favuser.length; i++) {
+                        $http.get("/fetchalluserinfo/" + $rootScope.currentUser.favuser[i])
+                            .success(function (response) {
+                                $rootScope.likedUserToBeDisplayed.push(response);
+                            });
+                    }
                 })
 		    }
+
+		    $scope.userProfileLike = function () {
+		        console.log($rootScope.selectedUserDetail._id);
+
+		        var likeduserdata = {
+		            favuser: $rootScope.selectedUserDetail._id,
+		            _id: $rootScope.currentUser._id
+		        }
+		        $http.put("/likeduser", likeduserdata)
+                .success(function (response) {
+                    $http.get("/fetchalluserinfo/" + $rootScope.currentUser._id)
+                        .success(function (response) {
+                            $rootScope.currentUser = response;
+
+                            //LikeUserDetailToBeDisplayed
+                            $rootScope.likedUserToBeDisplayed = [];
+                            for (var i = 0; i < $rootScope.currentUser.favuser.length; i++) {
+                                $http.get("/fetchalluserinfo/" + $rootScope.currentUser.favuser[i])
+                                    .success(function (response) {
+                                        $rootScope.likedUserToBeDisplayed.push(response);
+                                    });
+                            }
+                        });
+                })
+		    }
+
 		    $scope.unfollowUser = function (index) {
 		        $rootScope.unlikedUserDetail = $rootScope.likedUserToBeDisplayed[index];
-		        $http.delete("/unlikeuser/" + $rootScope.unlikedUserDetail._id + "/" + $scope.currentUser._id)
+		        $http.delete("/unlikeuser/" + $rootScope.unlikedUserDetail._id + "/" + $rootScope.currentUser._id)
                 .success(function (response) {
                     //console.log(response);
                     $rootScope.currentUser = response[0];
@@ -488,7 +522,7 @@ app.controller("travelController",
                     });
 		        }
 		        else {
-                    alert("Enter Comment")
+		            alert("Enter Comment")
 		        }
 		    }
 		});

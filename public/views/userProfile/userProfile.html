@@ -47,7 +47,7 @@
                 </div>
             </div>
             <div class="row">
-                <button class="btn btn-success profile-btn-pad-left" ng-click="" ng-show="currentUser && (currentUser.favuser.indexOf(selectedUserDetail._id)<0)"><i class="fa fa-thumbs-o-up"></i></button>
+                <button class="btn btn-success profile-btn-pad-left" ng-click="userProfileLike()" ng-show="currentUser && (currentUser.favuser.indexOf(selectedUserDetail._id)<0)"><i class="fa fa-thumbs-o-up"></i></button>
                 <button class="btn btn-primary profile-btn-pad-left" ng-click="userProfileUnLike()" ng-show="currentUser && (currentUser.favuser.indexOf(selectedUserDetail._id)>=0)"><i class="fa fa-thumbs-o-down"></i></button>
             </div>
         </div>
