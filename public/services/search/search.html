@@ -1,0 +1,99 @@
+<div class="row route-margin-top">
+    <div class="container route-main">
+        <h1>SEARCH</h1>
+        <h4>You can search other users here !</h4>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 route-heading-color">
+            <h2>Find User Info</h2>
+
+            <div class="form-inline route-padding-bottom">
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="">USER</span>
+                        <input class="form-control" ng-model="searchquery" placeholder="First Name, e.g. Abhishek" id="source" />
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="blackink"><b>Search is based on:</b> Firstname, Lastname, Any bookmarks</div>
+            <div class="form-inline route-btn-top-pad">
+                <button class="btn btn-success text-center route-btn-primary" ng-click="searchUser()">
+                    <span class="glyphicon glyphicon-search">&nbsp;Search</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-md-push-2">
+            <div ng-show="currentUser">
+                <h3>Your Saved Users</h3>
+                <table class="table table-responsive table-condensed table-upper-border" ng-show="likedUserToBeDisplayed.length > 0">
+                    <tbody>
+                        <tr ng-repeat="u in likedUserToBeDisplayed">
+                            <td>{{u.firstname}} {{u.lastname}}</td>
+                            <td>
+                                <button class="btn btn-warning" ng-click="goToUserProfileFromSavedUser($index)">
+                                    <i class="fa fa-chevron-circle-down"> Detail</i>
+                                </button>
+                                <button class="btn btn-primary" ng-click="unfollowUser($index)">
+                                    <i class="fa fa-thumbs-o-down"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div ng-hide="likedUserToBeDisplayed.length > 0">
+                    None
+                </div>
+            </div>
+            <div ng-show="!currentUser">
+                <h3>Welcome, Guest</h3>You need to signin to bookmark
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<br />
+<br />
+
+<div class="container">
+    <div class="row container weather-output-heading">
+        <h2 ng-show="searchButtonClicked">Searched Users</h2>
+        <br />
+        <div ng-show="isSearchedUserNull">No Results</div>
+        <div class="row container" ng-show="searchedUserIsNotNull">
+            <div class="col-lg-2"><b>NAME</b></div>
+            <div class="col-lg-2"><b>ABOUT</b></div>
+            <div class="col-lg-3"><b>Recent Route Searches</b></div>
+            <div class="col-lg-3"><b>Recent Weather Searches</b></div>
+            <div class="col-lg-2">
+                &nbsp;
+            </div>
+        </div>
+        <div class="row container" ng-repeat="u in searchedUser" ng-show="searchedUserIsNotNull">
+            <br />
+            <div class="col-lg-2"><b>{{$index + 1}}</b> &nbsp; {{u.firstname}} {{u.lastname}}</div>
+            <div class="col-lg-2">{{u.about}}</div>
+            <div class="col-lg-3">
+                <div ng-show="doNotShowFavPlaces">None</div>
+                <div ng-repeat="x in u.favplaces">{{x.bookmark}}</div>
+            </div>
+            <div class="col-lg-3">
+                <div ng-show="doNotShowFavWeather">None</div>
+                <div ng-repeat="x in u.favweather">{{x.bookmark}}</div>
+            </div>
+            <div class="col-lg-2">
+                <div>
+                    <button class="btn btn-warning" ng-click="goToUserProfile($index)"> <i class="fa fa-chevron-circle-down"> Detail</i> </button>
+                    <button title="Like" class="btn btn-success" ng-show="currentUser && (currentUser.favuser.indexOf(u._id)<0) && (currentUser._id != u._id)" ng-click="userLiked($index)"> <i class="fa fa-thumbs-o-up"></i> </button>
+                    <button class="btn btn-primary" ng-show="currentUser && (currentUser.favuser.indexOf(u._id)>=0) && (currentUser._id != u._id)" ng-click="unLikedUser($index)"> <i class="fa fa-thumbs-o-down"></i> </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

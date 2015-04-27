@@ -33,10 +33,37 @@ var UserSchema = new mongoose.Schema({
     about: String,
     roles: [String],
     favplaces: [{ bookmark: String }],
-    favweather: [{ bookmark: String }]
+    favweather: [{ bookmark: String }],
+    favuser: [String]
 });
 
 var UserModel = mongoose.model("UserModel", UserSchema);
+
+var CommentSchema = new mongoose.Schema({
+    firstname: String,
+    comment: String,
+    date: { type: Date, default: Date.now }
+});
+
+var CommentModel = mongoose.model("CommentModel", CommentSchema);
+
+//-----------------------------------------------------------------------//
+
+app.post("/addcomment", function (req, res) {
+    var newUser = new CommentModel(req.body);
+    newUser.save(function (err, doc) {
+        CommentModel.find(function (err, comments) {
+            res.json(comments);
+        });
+    });
+});
+
+app.get("/getallcomments", function (req, res) {
+    CommentModel.find(function (err, doc) {
+        res.json(doc);
+    })
+});
+
 
 app.get('/', function (req, res) {
     res.send('hello world');
@@ -163,6 +190,53 @@ app.delete("/deleteweatherbookmark/:favid/:id", function (req, res) {
                 if (err) throw err;
                 result = result;
             });
+    });
+});
+
+// SERACH USER
+
+app.get("/searchuser/:search", function (req, res) {
+    var regexp = new RegExp(req.params.search, "i");
+    UserModel.find({
+        $or: [{ firstname: regexp },
+              { lastname: regexp },
+              { favplaces: { $elemMatch: { bookmark: regexp } } },
+              { favweather: { $elemMatch: { bookmark: regexp } } }]
+    }, function (err, data) {
+        res.json(data);
+    })
+});
+
+
+app.put("/likeduser", function (req, res) {
+    var result = null;
+    UserModel.findOne({ _id: req.body._id }, function (err, res) {
+        UserModel.update({ _id: res._id },
+            { $push: { favuser: req.body.favuser } }, function (err, result) {
+                if (err) throw err;
+                result = result;
+            });
+    });
+    res.json(req.body);
+});
+
+app.delete("/unlikeuser/:userid/:id", function (req, res) {
+
+    //console.log(req.params.userid);
+    //console.log(req.params.id);
+
+    UserModel.update({ _id: req.params.id },
+         { $pull: { favuser: req.params.userid } }, { upset: true }, function (err, result) {
+             UserModel.find({ _id: req.params.id }, function (err, doc) {
+                 console.log(doc);
+                 res.json(doc);
+             })
+         });
+});
+
+app.get("/getalluser", function (req, res) {
+    UserModel.find(function (err, doc) {
+        res.json(doc);
     });
 });
 

@@ -134,6 +134,10 @@
     border-bottom: 4px solid transparent;
 }
 
+.blackink{
+    color:black !important;
+}
+
 
 @media screen and (max-width:545px) {
     .table-responsive-changes {

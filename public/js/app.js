@@ -7,22 +7,40 @@ app.controller("travelController",
 
 		    $scope.login = function (user) {
 		        $http.post("/login", user)
-                .success(function (response) {
-                    //console.log(response);
-                    $rootScope.currentUser = response;
-                    if ($rootScope.currentUser == null) {
-                        $rootScope.wronglogindetails = 1;
-                    } else {
+                    .success(function (response) {
+                        console.log(response);
+                        $rootScope.currentUser = response;
                         $rootScope.wronglogindetails = null;
+
                         $http.get("/fetchalluserinfo/" + $rootScope.currentUser._id)
-                        .success(function (response) {
-                            $rootScope.bookmarks = response.favplaces;
-                            $rootScope.weatherbookmarks = response.favweather;
-                        });
+                          .success(function (response) {
+                              $rootScope.bookmarks = response.favplaces;
+                              $rootScope.weatherbookmarks = response.favweather;
+
+                              //LikeUserDetailToBeDisplayed
+                              $rootScope.likedUserToBeDisplayed = [];
+                              for (var i = 0; i < $rootScope.currentUser.favuser.length; i++) {
+                                  $http.get("/fetchalluserinfo/" + $rootScope.currentUser.favuser[i])
+                                      .success(function (response) {
+                                          $rootScope.likedUserToBeDisplayed.push(response);
+                                      });
+                              }
+                              
+                          });
                         $location.url("/profile");
-                    }
-                });
+                    })
+		        .error(function (response) {
+		            //console.log("Error");
+		            $rootScope.wronglogindetails = 1;
+		        });
+
+		        //$http.get("/getallcomments")
+                //.success(function (response) {
+                //    $rootScope.allcomments = response;
+                //})
+		        
 		    }
+
 		    $scope.register = function (user) {
 		        $scope.duplicateusername = null;
 		        $rootScope.wrongregistercredentials = null;
@@ -36,12 +54,13 @@ app.controller("travelController",
 		            $http.post("/register", user)
                     .success(function (response) {
                         if (response != null) {
-                            console.log(response);
+                            //console.log(response);
                             $rootScope.currentUser = response;
                             $rootScope.bookmarks = null;
                             $rootScope.weatherbookmarks = null;
                             $rootScope.wrongregistercredentials = null;
                             $scope.duplicateusername = null;
+                            $rootScope.likedUserToBeDisplayed = [];
                             $location.url("/profile");
                         }
                         else {
@@ -66,8 +85,8 @@ app.controller("travelController",
 		    $scope.profileSave = function (currentUser) {
 		        $http.put("/updateuser", currentUser)
                 .success(function (response) {
-                    console.log("Log from update user app js");
-                    console.log(response);
+                    //console.log("Log from update user app js");
+                    //console.log(response);
                     $rootScope.currentUser = response;
                 });
 		        $scope.editable = null;
@@ -127,6 +146,24 @@ app.controller("travelController",
                         });
 
                         flightPath.setMap(map);
+
+                        var infowindow = new google.maps.InfoWindow();
+                        var marker, i;
+
+                        for (var i = 0; i < routeCord.length; i++) {
+                            var marker = new google.maps.Marker({
+                                position: new google.maps.LatLng(routeCord[i].k, routeCord[i].D)
+                            });
+
+                            google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                                return function () {
+                                    infowindow.setContent(response.places[i].name);
+                                    infowindow.open(map, marker);
+                                }
+                            })(marker, i));
+
+                            marker.setMap(map);
+                        }
                     })
 		        }
 		    }
@@ -202,6 +239,24 @@ app.controller("travelController",
                         });
 
                         flightPath.setMap(map);
+
+                        var infowindow = new google.maps.InfoWindow();
+                        var marker, i;
+
+                        for (var i = 0; i < routeCord.length; i++) {
+                            var marker = new google.maps.Marker({
+                                position: new google.maps.LatLng(routeCord[i].k, routeCord[i].D)
+                            });
+
+                            google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                                return function () {
+                                    infowindow.setContent(response.places[i].name);
+                                    infowindow.open(map, marker);
+                                }
+                            })(marker, i));
+
+                            marker.setMap(map);
+                        }
                     })
 		    }
 
@@ -251,10 +306,10 @@ app.controller("travelController",
 		        }
 		    }
 		    $scope.deleteWeatherBookmark = function (bm) {
-		        var data = {
-		            favplaces: bm._id,
-		            _id: $scope.currentUser._id
-		        }
+		        //var data = {
+		        //    favplaces: bm._id,
+		        //    _id: $scope.currentUser._id
+		        //}
 
 		        $http.delete("/deleteweatherbookmark/" + bm._id + "/" + $scope.currentUser._id)
                 .success(function (response) {
@@ -286,6 +341,156 @@ app.controller("travelController",
                         });
 		        });
 		    }
+
+		    // SEARCH
+
+		    $scope.searchButtonClicked = null;
+		    $scope.searchUser = function () {
+		        $scope.searchedUserIsNotNull = null;
+		        $scope.isSearchedUserNull = null;
+		        $scope.searchButtonClicked = 1;
+		        $http.get("/searchuser/" + $scope.searchquery)
+                .success(function (response) {
+
+                    if (response.length == 0) {
+                        $scope.isSearchedUserNull = 1;
+                    } else {
+                        $rootScope.searchedUser = response;
+                        $scope.searchedUserIsNotNull = 1;
+                        $scope.isSearchedUserNull = null;
+                        $scope.doNotShowFavPlaces = null;
+                        $scope.doNotShowFavWeather = null;
+
+                        if ($rootScope.currentUser != null) {
+                            $http.get("/fetchalluserinfo/" + $rootScope.currentUser._id)
+                            .success(function (response) {
+                                $rootScope.currentUser = response;
+
+                                //LikeUserDetailToBeDisplayed
+                                $rootScope.likedUserToBeDisplayed = [];
+                                for (var i = 0; i < $rootScope.currentUser.favuser.length; i++) {
+                                    $http.get("/fetchalluserinfo/" + $rootScope.currentUser.favuser[i])
+                                        .success(function (response) {
+                                            $rootScope.likedUserToBeDisplayed.push(response);
+                                        });
+                                }
+                            });
+                        }
+                    }
+                });
+		    }
+		    $scope.goToUserProfile = function (index) {
+		        $rootScope.selectedUserDetail = $rootScope.searchedUser[index];
+		        if ($rootScope.currentUser != null && ($rootScope.selectedUserDetail._id == $rootScope.currentUser._id)) {
+		            $location.url("/profile");
+		        } else {
+		            $location.url("/userprofile");
+		        }
+		    }
+		    $scope.userLiked = function (index) {
+		        $rootScope.likedUserDetail = $rootScope.searchedUser[index];
+
+		        var likeduserdata = {
+		            favuser: $rootScope.likedUserDetail._id,
+		            _id: $rootScope.currentUser._id
+		        }
+		        $http.put("/likeduser", likeduserdata)
+                .success(function (response) {
+                    $http.get("/fetchalluserinfo/" + $rootScope.currentUser._id)
+                        .success(function (response) {
+                            $rootScope.currentUser = response;
+
+                            //LikeUserDetailToBeDisplayed
+                            $rootScope.likedUserToBeDisplayed = [];
+                            for (var i = 0; i < $rootScope.currentUser.favuser.length; i++) {
+                                $http.get("/fetchalluserinfo/" + $rootScope.currentUser.favuser[i])
+                                    .success(function (response) {
+                                        $rootScope.likedUserToBeDisplayed.push(response);
+                                    });
+                            }
+                        });
+                })
+		    }
+		    $scope.goToUserProfileFromSavedUser = function (index) {
+		        $rootScope.selectedUserDetail = $rootScope.likedUserToBeDisplayed[index];
+		        if ($rootScope.selectedUserDetail._id == $rootScope.currentUser._id) {
+		            $location.url("/profile");
+		        } else {
+		            $location.url("/userprofile");
+		        }
+		    }
+		    $scope.unLikedUser = function (index) {
+		        $rootScope.unlikedUserDetail = $rootScope.searchedUser[index];
+		        $http.delete("/unlikeuser/" + $rootScope.unlikedUserDetail._id + "/" + $scope.currentUser._id)
+                .success(function (response) {
+                    //console.log(response);
+                    $rootScope.currentUser = response[0];
+
+                    //LikeUserDetailToBeDisplayed
+                    $rootScope.likedUserToBeDisplayed = [];
+                    for (var i = 0; i < $rootScope.currentUser.favuser.length; i++) {
+                        $http.get("/fetchalluserinfo/" + $rootScope.currentUser.favuser[i])
+                            .success(function (response) {
+                                $rootScope.likedUserToBeDisplayed.push(response);
+                            });
+                    }
+                })
+		    }
+		    $scope.userProfileUnLike = function () {
+		        $http.delete("/unlikeuser/" + $rootScope.selectedUserDetail._id + "/" + $scope.currentUser._id)
+                .success(function (response) {
+                    //console.log(response);
+                    $rootScope.currentUser = response[0];
+                    //$http.get("/getalluser")
+                    //.success(function (response) {
+                    //    console.log(response);
+                    //})
+                })
+		    }
+		    $scope.unfollowUser = function (index) {
+		        $rootScope.unlikedUserDetail = $rootScope.likedUserToBeDisplayed[index];
+		        $http.delete("/unlikeuser/" + $rootScope.unlikedUserDetail._id + "/" + $scope.currentUser._id)
+                .success(function (response) {
+                    //console.log(response);
+                    $rootScope.currentUser = response[0];
+
+                    //LikeUserDetailToBeDisplayed
+                    $rootScope.likedUserToBeDisplayed = [];
+                    for (var i = 0; i < $rootScope.currentUser.favuser.length; i++) {
+                        $http.get("/fetchalluserinfo/" + $rootScope.currentUser.favuser[i])
+                            .success(function (response) {
+                                $rootScope.likedUserToBeDisplayed.push(response);
+                            });
+                    }
+                })
+		    }
+
+
+		    // ADD COMMENT
+		    $scope.addComment = function () {
+		        console.log($scope.leavecomment);
+		        if ($scope.leavecomment != null && $scope.leavecomment != "" && $scope.leavecomment != undefined) {
+		            if ($rootScope.currentUser != null) {
+		                var data = {
+		                    firstname: $rootScope.currentUser.firstname,
+		                    comment: $scope.leavecomment
+		                }
+		            } else {
+		                var data = {
+		                    firstname: "Anonymous",
+		                    comment: $scope.leavecomment
+		                }
+		            }
+		            $http.post("/addcomment", data)
+                    .success(function (response) {
+                        $rootScope.allcomments = response;
+                        $rootScope.showcomments = 1;
+                    });
+		        }
+		        else {
+                    alert("Enter Comment")
+		        }
+		    }
 		});
 
 app.config(['$routeProvider',
@@ -316,8 +521,20 @@ app.config(['$routeProvider',
                     templateUrl: 'views/register/register.html',
                     controller: 'travelController'
                 }).
+                when('/search', {
+                    templateUrl: 'services/search/search.html',
+                    controller: 'travelController'
+                }).
+                when('/comment', {
+                    templateUrl: 'services/comment/comment.html',
+                    controller: 'travelController'
+                }).
                 when('/weather', {
                     templateUrl: 'services/weather/weather.html',
+                    controller: 'travelController'
+                }).
+                when('/userprofile', {
+                    templateUrl: 'views/userProfile/userProfile.html',
                     controller: 'travelController'
                 }).
                 otherwise({
@@ -333,7 +550,7 @@ var checkLoggedIn = function ($q, $timeout, $http, $location, $rootScope) {
         $rootScope.errorMessage = null;
         // User is Authenticated
         if (user !== '0') {
-            console.log(user);
+            //console.log(user);
             $http.get("/fetchalluserinfo/" + user._id)
             .success(function (response) {
                 $rootScope.currentUser = response;

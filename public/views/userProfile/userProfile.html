@@ -1,0 +1,93 @@
+﻿<div class="row route-margin-top">
+    <div class="container route-main">
+        <h1>User Profile</h1>
+        <h4>Below are requested profile details.</h4>
+    </div>
+</div>
+
+<div class="container profile-heading-color">
+    <h3>User Profile Details</h3>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6 profile-welcome-div">
+            <div class="row">
+                <div class="col-md-4">
+                    <b>First Name</b>
+                </div>
+                <div class="col-md-4">
+                    {{selectedUserDetail.firstname}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <b>Last Name</b>
+                </div>
+                <div class="col-md-4">
+                    {{selectedUserDetail.lastname}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <b>User Name</b>
+                </div>
+                <div class="col-md-4">
+                    {{selectedUserDetail.username}}
+                </div>
+            
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <b>Email</b>
+                </div>
+                <div class="col-md-4">
+                    {{selectedUserDetail.email}}
+                </div>
+            </div>
+            <div class="row">
+                <button class="btn btn-success profile-btn-pad-left" ng-click="" ng-show="currentUser && (currentUser.favuser.indexOf(selectedUserDetail._id)<0)"><i class="fa fa-thumbs-o-up"></i></button>
+                <button class="btn btn-primary profile-btn-pad-left" ng-click="userProfileUnLike()" ng-show="currentUser && (currentUser.favuser.indexOf(selectedUserDetail._id)>=0)"><i class="fa fa-thumbs-o-down"></i></button>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <img class="profile-img" src="../../images/user_image.png" alt="Profile Image">
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <hr />
+    <div class="profile-heading-color">
+        <h3>Saved Bookmarks</h3>
+    </div>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-3">
+            <h4>Route Bookmarks</h4>
+            <table class="table table-responsive table-condensed table-upper-border">
+                <tbody>
+                    <tr ng-repeat="bm in selectedUserDetail.favplaces">
+                        <td>{{bm.bookmark}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-4">
+            <h4>Weather Bookmarks</h4>
+            <table class="table table-responsive table-condensed table-upper-border">
+                <tbody>
+                    <tr ng-repeat="bm in selectedUserDetail.favweather">
+                        <td>{{bm.bookmark}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <hr />
+</div>
+
+
