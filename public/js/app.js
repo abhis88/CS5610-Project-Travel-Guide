@@ -519,6 +519,7 @@ app.controller("travelController",
                     .success(function (response) {
                         $rootScope.allcomments = response;
                         $rootScope.showcomments = 1;
+                        $scope.leavecomment = "";
                     });
 		        }
 		        else {
