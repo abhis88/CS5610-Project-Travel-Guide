@@ -1,28 +1,28 @@
 var app = angular.module("travelApp", ['ngRoute']);
 
+// controller
 app.controller("travelController",
 		function ($scope, $http, $rootScope, $location) {
 
+				// get all the comments.
 		    $http.get("/getallcomments")
                         .success(function (response) {
                             $rootScope.allcomments = response;
                             $rootScope.showcomments = 1;
                         })
 
-		    // LOGIN, REGISTER, PROFILE
-
+		    // Login Module
 		    $scope.login = function (user) {
 		        $http.post("/login", user)
                     .success(function (response) {
-                        console.log(response);
+                        //console.log(response);
                         $rootScope.currentUser = response;
                         $rootScope.wronglogindetails = null;
-
+												// fetch all user info for the logged in user
                         $http.get("/fetchalluserinfo/" + $rootScope.currentUser._id)
                           .success(function (response) {
                               $rootScope.bookmarks = response.favplaces;
                               $rootScope.weatherbookmarks = response.favweather;
-
                               //LikeUserDetailToBeDisplayed
                               $rootScope.likedUserToBeDisplayed = [];
                               for (var i = 0; i < $rootScope.currentUser.favuser.length; i++) {
@@ -42,6 +42,7 @@ app.controller("travelController",
 		        });
 		    }
 
+				// REGISTER
 		    $scope.register = function (user) {
 		        $scope.duplicateusername = null;
 		        $rootScope.wrongregistercredentials = null;
@@ -70,6 +71,8 @@ app.controller("travelController",
                     });
 		        }
 		    }
+
+				// PROFILE
 		    $scope.logout = function () {
 		        $http.post("/logout")
                 .success(function (response) {
@@ -83,7 +86,9 @@ app.controller("travelController",
 		    $scope.selected = function () {
 		        $scope.editable = 1;
 		    }
-		    $scope.profileSave = function (currentUser) {
+
+				// profile save
+				$scope.profileSave = function (currentUser) {
 		        $http.put("/updateuser", currentUser)
                 .success(function (response) {
                     //console.log("Log from update user app js");
@@ -168,6 +173,8 @@ app.controller("travelController",
                     })
 		        }
 		    }
+
+				// Bookmark Place
 		    $scope.bookmarkPlace = function () {
 		        if ($scope.oCity == undefined || $scope.oCity == "") {
 		            alert("enter Source City for details");
@@ -186,6 +193,8 @@ app.controller("travelController",
 		            })
 		        }
 		    }
+
+				// Delete Bookmark
 		    $scope.deleteBookmark = function (bm) {
 		        var data = {
 		            favplaces: bm._id,
@@ -199,6 +208,8 @@ app.controller("travelController",
                             $rootScope.bookmarks = response.favplaces;
                         });
 		    }
+
+				// Fetch Place details
 		    $scope.fetchPlaceDetails = function (bm) {
 
 		        var index = bm.bookmark.split("to");
@@ -289,6 +300,8 @@ app.controller("travelController",
 		            $scope.showWeatherCheck = 1;
 		        });
 		    }
+
+				// favorite weather
 		    $scope.favWeather = function () {
 		        if ($scope.weatherCity == undefined || $scope.weatherCity == "") {
 		            alert("Enter City for details");
@@ -306,6 +319,8 @@ app.controller("travelController",
 		            })
 		        }
 		    }
+
+				// delete Weather bookmark
 		    $scope.deleteWeatherBookmark = function (bm) {
 		        //var data = {
 		        //    favplaces: bm._id,
@@ -320,6 +335,8 @@ app.controller("travelController",
                             $rootScope.weatherbookmarks = response.favweather;
                         });
 		    }
+
+				// fetch weather for a particular place
 		    $scope.fetchWeatherPlaceDetails = function (bm) {
 		        $rootScope.weatherCity = bm.bookmark;
 		        //console.log(bm.bookmark);
@@ -343,7 +360,7 @@ app.controller("travelController",
 		        });
 		    }
 
-		    // SEARCH
+		    // Search Other User
 
 		    $scope.searchButtonClicked = null;
 		    $scope.searchUser = function () {
@@ -380,6 +397,8 @@ app.controller("travelController",
                     }
                 });
 		    }
+
+				// go to user profile
 		    $scope.goToUserProfile = function (index) {
 		        $rootScope.selectedUserDetail = $rootScope.searchedUser[index];
 		        if ($rootScope.currentUser != null && ($rootScope.selectedUserDetail._id == $rootScope.currentUser._id)) {
@@ -388,6 +407,8 @@ app.controller("travelController",
 		            $location.url("/userprofile");
 		        }
 		    }
+
+				// user liked detail
 		    $scope.userLiked = function (index) {
 		        $rootScope.likedUserDetail = $rootScope.searchedUser[index];
 
@@ -412,6 +433,8 @@ app.controller("travelController",
                         });
                 })
 		    }
+
+				// go to user profile from saved user
 		    $scope.goToUserProfileFromSavedUser = function (index) {
 		        $rootScope.selectedUserDetail = $rootScope.likedUserToBeDisplayed[index];
 		        if ($rootScope.selectedUserDetail._id == $rootScope.currentUser._id) {
@@ -420,6 +443,8 @@ app.controller("travelController",
 		            $location.url("/userprofile");
 		        }
 		    }
+
+				// unlike a user
 		    $scope.unLikedUser = function (index) {
 		        $rootScope.unlikedUserDetail = $rootScope.searchedUser[index];
 		        $http.delete("/unlikeuser/" + $rootScope.unlikedUserDetail._id + "/" + $scope.currentUser._id)
@@ -437,6 +462,8 @@ app.controller("travelController",
                     }
                 })
 		    }
+
+				// Unlike a user from profile page
 		    $scope.userProfileUnLike = function () {
 		        console.log($rootScope.selectedUserDetail._id);
 		        console.log($rootScope.currentUser._id);
@@ -456,6 +483,7 @@ app.controller("travelController",
                 })
 		    }
 
+				// like user from profile page
 		    $scope.userProfileLike = function () {
 		        console.log($rootScope.selectedUserDetail._id);
 
@@ -481,6 +509,7 @@ app.controller("travelController",
                 })
 		    }
 
+				// unfollow user
 		    $scope.unfollowUser = function (index) {
 		        $rootScope.unlikedUserDetail = $rootScope.likedUserToBeDisplayed[index];
 		        $http.delete("/unlikeuser/" + $rootScope.unlikedUserDetail._id + "/" + $rootScope.currentUser._id)
@@ -528,6 +557,7 @@ app.controller("travelController",
 		    }
 		});
 
+// route controller
 app.config(['$routeProvider',
             function ($routeProvider) {
                 $routeProvider.
@@ -577,6 +607,7 @@ app.config(['$routeProvider',
                 });
             }]);
 
+// check if the user logged in or not
 var checkLoggedIn = function ($q, $timeout, $http, $location, $rootScope) {
     var deferred = $q.defer();
 

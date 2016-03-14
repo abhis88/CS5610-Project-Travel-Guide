@@ -24,6 +24,7 @@ app.use(passport.session());
 //GET /style.css etc
 app.use(express.static(__dirname + '/public'));
 
+// Schema creation
 var UserSchema = new mongoose.Schema({
     firstname: String,
     lastname: String,
@@ -49,6 +50,7 @@ var CommentModel = mongoose.model("CommentModel", CommentSchema);
 
 //-----------------------------------------------------------------------//
 
+// add new comment
 app.post("/addcomment", function (req, res) {
     var newUser = new CommentModel(req.body);
     newUser.save(function (err, doc) {
@@ -58,6 +60,7 @@ app.post("/addcomment", function (req, res) {
     });
 });
 
+// get all the comments
 app.get("/getallcomments", function (req, res) {
     CommentModel.find(function (err, doc) {
         res.json(doc);
@@ -69,6 +72,7 @@ app.get('/', function (req, res) {
     res.send('hello world');
 });
 
+// check if username exists
 passport.use(new LocalStrategy(
     function (username, password, done) {
         UserModel.findOne({ username: username, password: password }, function (err, user) {
@@ -87,12 +91,13 @@ passport.deserializeUser(function (user, done) {
     done(null, user);
 });
 
-
+// login module
 app.post("/login", passport.authenticate('local'), function (req, res) {
     var user = req.user;
     res.json(user);
 });
 
+// logout module
 app.post("/logout", function (req, res) {
     req.logout();
     res.send(200);
@@ -102,6 +107,7 @@ app.get("/loggedin", function (req, res) {
     res.send(req.isAuthenticated() ? req.user : '0');
 });
 
+//register module
 app.post("/register", function (req, res) {
     var newUser = req.body;
     newUser.roles = ['student'];
@@ -132,19 +138,21 @@ app.get("/duplicateusername/:username", function (req, res) {
     });
 });
 
-
+// update user detail
 app.put("/updateuser", function (req, res) {
     UserModel.where('_id', req.body._id).update({ $set: { firstname: req.body.firstname, lastname: req.body.lastname, email: req.body.email, about: req.body.about } }, function (err, count) {
         res.json(req.body);
     });
 });
 
+// fetch all user info
 app.get("/fetchalluserinfo/:id", function (req, res) {
     UserModel.findById(req.params.id, function (err, data) {
         res.json(data);
     });
 });
 
+// delete bookmark
 app.delete("/deletebookmark/:favid/:id", function (req, res) {
     var result = null;
     UserModel.findOne({ _id: req.params.id }, function (err, res) {
@@ -156,7 +164,7 @@ app.delete("/deletebookmark/:favid/:id", function (req, res) {
     });
 });
 
-
+// get favourite places
 app.put("/favplaces", function (req, res) {
     var result = null;
     UserModel.findOne({ _id: req.body._id }, function (err, res) {
@@ -169,7 +177,7 @@ app.put("/favplaces", function (req, res) {
     res.json(req.body);
 });
 
-
+// get weather information
 app.put("/weatherplaces", function (req, res) {
     var result = null;
     UserModel.findOne({ _id: req.body._id }, function (err, res) {
@@ -182,6 +190,7 @@ app.put("/weatherplaces", function (req, res) {
     res.json(req.body);
 });
 
+// delete weather bookmark
 app.delete("/deleteweatherbookmark/:favid/:id", function (req, res) {
     var result = null;
     UserModel.findOne({ _id: req.params.id }, function (err, res) {
@@ -194,7 +203,6 @@ app.delete("/deleteweatherbookmark/:favid/:id", function (req, res) {
 });
 
 // SERACH USER
-
 app.get("/searchuser/:search", function (req, res) {
     var regexp = new RegExp(req.params.search, "i");
     UserModel.find({
@@ -207,7 +215,7 @@ app.get("/searchuser/:search", function (req, res) {
     })
 });
 
-
+// like user
 app.put("/likeduser", function (req, res) {
     var result = null;
     UserModel.findOne({ _id: req.body._id }, function (err, res) {
